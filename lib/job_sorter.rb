@@ -22,12 +22,9 @@ class JobSorter
   end
 
   def self.sort!(jobs)
-    sorted_jobs = []
-    if circular_dependancy?(jobs)
-      raise ArgumentError.new('Circular dependancy occured.')
-      return
-    end
+    raise ArgumentError.new('Circular dependancy occured.') if circular_dependancy?(jobs)
 
+    sorted_jobs = []
     jobs.values.each do |job|
       if !sorted_jobs.include? job.name
         sorted_jobs << job.name
@@ -37,6 +34,6 @@ class JobSorter
         sorted_jobs.insert(sorted_jobs.index(job.name), job.dependancy)
       end
     end
-    sorted_jobs
+    sorted_jobs.join
   end
 end
